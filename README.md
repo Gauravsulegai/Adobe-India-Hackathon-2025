@@ -116,18 +116,21 @@ This semantic search approach allows the system to uncover genuinely relevant in
 -   [x] **Model size stays within 1GB limit**: Yes, our model is ~80MB.
 -   [x] **Compatible with AMD64 architecture**: Yes.
 
-[Piyush Kumar] - Research & Quality Assurance*
-    
+### Our Team & Contributions
+
+This project was a collaborative effort by all three team members. We divided our roles based on our strengths to work efficiently.
+
+* *[Gaurav SK] - Lead Developer & Architect*
+    * Designed and implemented the core logic for the PDF parsing engine (Round 1A).
+    * Developed the semantic search and relevance ranking system (Round 1B).
+    * Set up the Docker environment and managed the final build process.
+
+* *[Piyush Kumar] - Research & Quality Assurance*
     * Conducted initial research on PDF parsing libraries and NLP models to help the team decide on the optimal tech stack.
-
     * Sourced and curated a diverse set of test PDFs (e.g., reports, forms, multi-language documents) to ensure the solution was robust.
-
     * Performed rigorous testing, identified bugs, and provided feedback for performance improvements.
 
-[Shivam Kumar] - Project Management & Strategy
-
-* Managed the project timeline and ensured the team met all submission requirements and deadlines.
-
-* Led the initial brainstorming sessions to define the project's core strategy and scope.
-
-* Analyzed the user persona requirements for Round 1B, helping to define the key use-cases that guided the development process.
+* *[Shivam Kumar] - Project Management & Documentation*
+    * Managed the project timeline and ensured the team met all submission requirements and deadlines.
+    * Led the initial brainstorming sessions to define the project's core strategy and scope.
+    * Analyzed the user persona requirements for Round 1B, helping to define the key use-cases that guided the development process.
