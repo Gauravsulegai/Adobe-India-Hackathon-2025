@@ -40,19 +40,24 @@ def get_doc_properties(doc):
     return stats
 
 def extract_structure(pdf_path):
-    """Extracts structure using a context-aware, multi-pass heuristic model."""
-    try:
+   """ Analyzes a given PDF file to extract its title and hierarchical outline.
+      Args:
+        pdf_path (str): The full path to the PDF file to be processed.
+       Returns:
+        dict: A dictionary containing the 'title' and a list of 'outline' items.
+              Returns None if the document cannot be processed."""
+   try:
         doc = fitz.open(pdf_path)
-    except Exception as e:
+   except Exception as e:
         return {"title": os.path.basename(pdf_path), "outline": []}
 
-    if doc.page_count == 0:
+   if doc.page_count == 0:
         return {"title": os.path.basename(pdf_path), "outline": []}
 
-    doc_props = get_doc_properties(doc)
+   doc_props = get_doc_properties(doc)
     
-    candidates = []
-    for page_num, page in enumerate(doc):
+   candidates = []
+   for page_num, page in enumerate(doc):
         blocks = page.get_text("blocks", sort=True)
         for b in blocks:
             if b[6] == 0: # Text blocks
@@ -85,7 +90,7 @@ def extract_structure(pdf_path):
                 if score > 3:
                     candidates.append({'text': text, 'score': score, 'page': page_num + 1, 'y_pos': b[1]})
 
-    if not candidates:
+   if not candidates:
         # If no candidates, it's a doc with no headings (like file01 after filtering)
         # Try to find a title before returning
         title_text = ""
@@ -98,36 +103,36 @@ def extract_structure(pdf_path):
 
         return {"title": title_text or os.path.basename(pdf_path), "outline": []}
 
-    unique_scores = sorted(list(set(c['score'] for c in candidates)), reverse=True)
-    score_to_level = {}
-    level_map = ["H1", "H2", "H3", "H4", "H5"]
-    for i, score in enumerate(unique_scores[:len(level_map)]):
+   unique_scores = sorted(list(set(c['score'] for c in candidates)), reverse=True)
+   score_to_level = {}
+   level_map = ["H1", "H2", "H3", "H4", "H5"]
+   for i, score in enumerate(unique_scores[:len(level_map)]):
         score_to_level[score] = level_map[i]
         
-    outline = []
-    for c in candidates:
+   outline = []
+   for c in candidates:
         if c['score'] in score_to_level:
             outline.append({'level': score_to_level[c['score']], 'text': c['text'], 'page': c['page'], 'y_pos': c['y_pos']})
 
-    title = ""
-    if doc_props['is_sparse']:
+   title = ""
+   if doc_props['is_sparse']:
         # For sparse docs like invitations, force an empty title
         title = ""
-    else:
+   else:
         first_page_candidates = [c for c in candidates if c['page'] == 1]
         if first_page_candidates:
             first_page_candidates.sort(key=lambda c: c['y_pos'])
             title = first_page_candidates[0]['text']
             outline = [item for item in outline if not (item['text'] == title and item['page'] == 1)]
     
-    if not title and not doc_props['is_sparse']:
+   if not title and not doc_props['is_sparse']:
         title = os.path.basename(pdf_path)
 
-    final_outline = [{'level': i['level'], 'text': i['text'], 'page': i['page']} for i in outline]
-    final_outline.sort(key=lambda x: (x['page'], {'H1':1, 'H2':2, 'H3':3, 'H4':4, 'H5':5}.get(x['level'], 99)))
+   final_outline = [{'level': i['level'], 'text': i['text'], 'page': i['page']} for i in outline]
+   final_outline.sort(key=lambda x: (x['page'], {'H1':1, 'H2':2, 'H3':3, 'H4':4, 'H5':5}.get(x['level'], 99)))
 
-    doc.close()
-    return {"title": title, "outline": final_outline}
+   doc.close()
+   return {"title": title, "outline": final_outline}
 
 if __name__ == '__main__':
     os.makedirs(OUTPUT_DIR, exist_ok=True)
