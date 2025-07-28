@@ -61,3 +61,57 @@ This intelligent, multi-layered approach ensures high accuracy and resilience, a
 -   [x] **Solution works without internet access**: Yes.
 -   [x] **Memory usage stays within 16GB limit**: Yes.
 -   [x] **Compatible with AMD64 architecture**: Yes.
+
+---
+
+## Round 1B: Persona-Driven Document Intelligence
+
+### Overview
+
+This project is an intelligent document analysis engine for **Challenge 1B**. The goal is to read a collection of 3-10 PDFs and, based on a user persona and a "job-to-be-done," extract and rank the most semantically relevant sections from the document collection.
+
+### Our Approach: Semantic Search with Text Embeddings
+
+To determine relevance, our solution goes beyond keywords and analyzes the *meaning* of the text using a state-of-the-art Natural Language Processing (NLP) model.
+
+1.  **Document Parsing**: The engine first uses the logic from Round 1A to identify potential section headings. It then parses each document into small, meaningful paragraphs (chunks).
+2.  **Text Embedding**: A lightweight but powerful NLP model (`all-MiniLM-L6-v2`) converts the user's request (persona + job) and every text chunk into numerical vectors, or "embeddings," that capture their semantic meaning.
+3.  **Relevance Ranking**: The system calculates the **cosine similarity** between the user's request embedding and each text chunk's embedding to score relevance.
+4.  **Diversified Output**: To ensure a comprehensive and useful result, the engine first identifies the single most relevant chunk from *each* document in the collection. It then ranks these top chunks to produce a final, diversified list of the most important sections and subsections from across the entire document set.
+
+This semantic search approach allows the system to uncover genuinely relevant information, even if the text doesn't contain the exact keywords from the user's request.
+
+### Libraries & Models
+
+* **Primary Libraries**: **PyMuPDF**, **Sentence-Transformers**, **PyTorch**, and **Scikit-learn**.
+* **NLP Model**: `all-MiniLM-L6-v2` (80MB), a lightweight sentence-embedding model chosen for its excellent balance of performance and speed on a CPU. The model is included in the repository to ensure the solution works completely offline.
+
+### Submission Requirements Checklist
+
+-   [x] **GitHub Project**: Complete and functional solution repository.
+-   [x] **Dockerfile**: Located in the `round1b/` directory and fully functional.
+-   [x] **README.md**: This file.
+-   [x] **approach_explanation.md**: A separate file detailing the methodology.
+
+### Build and Run Commands
+
+**Prerequisites**: Docker Desktop must be installed and running.
+
+1.  **Build the Docker Image**:
+    ```bash
+    docker build --platform linux/amd64 -t round1b-solution round1b/
+    ```
+
+2.  **Run the Container**:
+    *Place your `PDFs` folder and `challenge1b_input.json` file in an `input` folder in the project root before running.*
+    ```bash
+    docker run --rm -v /$(pwd)/input:/app/input -v /$(pwd)/output:/app/output --network none round1b-solution
+    ```
+    The final `challenge1b_output.json` file will be generated in an `output` folder.
+
+### Validation Checklist
+
+-   [x] **Processing completes within 60 seconds for 3-5 documents**: Yes.
+-   [x] **Solution works without internet access**: Yes.
+-   [x] **Model size stays within 1GB limit**: Yes, our model is ~80MB.
+-   [x] **Compatible with AMD64 architecture**: Yes.
