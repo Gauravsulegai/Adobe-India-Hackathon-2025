@@ -115,3 +115,11 @@ This semantic search approach allows the system to uncover genuinely relevant in
 -   [x] **Solution works without internet access**: Yes.
 -   [x] **Model size stays within 1GB limit**: Yes, our model is ~80MB.
 -   [x] **Compatible with AMD64 architecture**: Yes.
+
+[Piyush Kumar] - Research & Quality Assurance*
+    
+    * Conducted initial research on PDF parsing libraries and NLP models to help the team decide on the optimal tech stack.
+
+    * Sourced and curated a diverse set of test PDFs (e.g., reports, forms, multi-language documents) to ensure the solution was robust.
+
+    * Performed rigorous testing, identified bugs, and provided feedback for performance improvements.
