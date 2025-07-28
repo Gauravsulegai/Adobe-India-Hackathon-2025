@@ -123,3 +123,11 @@ This semantic search approach allows the system to uncover genuinely relevant in
     * Sourced and curated a diverse set of test PDFs (e.g., reports, forms, multi-language documents) to ensure the solution was robust.
 
     * Performed rigorous testing, identified bugs, and provided feedback for performance improvements.
+
+[Shivam Kumar] - Project Management & Strategy
+
+* Managed the project timeline and ensured the team met all submission requirements and deadlines.
+
+* Led the initial brainstorming sessions to define the project's core strategy and scope.
+
+* Analyzed the user persona requirements for Round 1B, helping to define the key use-cases that guided the development process.
